@@ -1,6 +1,9 @@
-
+import jupyter_dash import JupyterDash
+from jupyter_dash import JupyterDash
+from dash import dcc, html
 
 import pandas as pd
+import plotly.express as px
 
 url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
 
@@ -57,3 +60,27 @@ fig_violin = px.violin(titanic_df,
 fig_violin.update_layout(yaxis_title='Jumlah')
 fig_violin.show()
 
+# Inisiasi aplikasi
+app = dash.Dash(__name__)
+
+# Definisikan layout 
+app.layout = html.Div(children=[
+    html.H1(children=‘Visualisasi Data’),
+    # Jika hendak ada grafik
+    dcc.Graph(
+        id=‘histogram-pertama',
+        figure=fig_histogram
+    ),
+    dcc.Graph(
+        id=‘histogram-kedua',
+        figure=fig_histogram2
+    ),
+    dcc.Graph(
+        id=‘violin',
+        figure=fig_violin
+    ),
+   ])
+
+# Jalankan server
+if __name__ == '__main__':
+    app.run_server(debug=True)
